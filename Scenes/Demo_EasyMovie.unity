@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 29028807}
   - component: {fileID: 29028806}
   m_Layer: 0
-  m_Name: EasyMoviePlayer
+  m_Name: "EM\uFF1A\u7C21\u5358\u306A\u30E0\u30FC\u30D3\u30FC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,12 +245,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29028805}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2082953247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &268901177
 GameObject:
@@ -721,7 +721,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238555939}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -729,7 +729,7 @@ Transform:
   - {fileID: 606764334}
   - {fileID: 1567876756}
   - {fileID: 1102322656}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2082953247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1348000587
 GameObject:
@@ -1573,7 +1573,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1238555941}
+  - {fileID: 29028807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -1584,5 +1586,3 @@ SceneRoots:
   - {fileID: 868874157}
   - {fileID: 431552816}
   - {fileID: 2082953247}
-  - {fileID: 1238555941}
-  - {fileID: 29028807}

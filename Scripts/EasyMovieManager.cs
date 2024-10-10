@@ -1,3 +1,4 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace develop_easymovie
 {
     public class EasyMovieManager : SingletonMonoBehaviour<EasyMovieManager>
     {
+        public CinemachineVirtualCamera DefaultVCam;
         public TextMeshProUGUI MessageTextUGUI;
 
         public async void PlayMovie(EasyMoviePlayer easyPlayer)
@@ -17,6 +19,7 @@ namespace develop_easymovie
                 LoadMovie(info);
                 await UniTask.Delay(1000 * (int)info.NextDelayTime);
             }
+            FinishEasyMovie();
         }
 
         private void LoadMovie(EasyMovieInfo info)
@@ -27,6 +30,12 @@ namespace develop_easymovie
         public void SetMessageText(string message)
         {
             MessageTextUGUI.text = message;
+        }
+
+        public void FinishEasyMovie()
+        {
+            if (DefaultVCam != null)
+                CameraManager.Instance.ChangeActiveCamera(DefaultVCam);
         }
     }
 }
