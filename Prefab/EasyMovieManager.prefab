@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &18134891100783240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2028947288547678723}
+  - component: {fileID: 2472387633985992631}
+  m_Layer: 0
+  m_Name: EasyMovieManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2028947288547678723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18134891100783240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 929375145453597665}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2472387633985992631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18134891100783240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aff3151a3986374998566b55ae137f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultVCam: {fileID: 0}
+  Brain: {fileID: 0}
+  MessageTextUGUI: {fileID: 0}
+  UnitActionLoader: {fileID: 0}
+  UnitRigidBody: {fileID: 0}
+--- !u!1 &8078754721911729375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 929375145453597665}
+  - component: {fileID: 6040395752442674527}
+  m_Layer: 0
+  m_Name: EM:Movie
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &929375145453597665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8078754721911729375}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2028947288547678723}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6040395752442674527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8078754721911729375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc49566a17114949a83f8d5ecfabc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infos:
+  - NextDelayTime: 0
+    DelayGameStop: 0
+    IsChangeCamera: 0
+    SetChangeCameraName: 
+    IsSetMessage: 0
+    SetMessage: 
+    IsChangeBlendTime: 0
+    SetBlendTime: 0
+    IsTimeScale: 0
+    SetTimeScale: 0
+    IsActiveSelectUI: 0
+    StartUnityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  SubmitDirectorPlayer: {fileID: 0}
+  SubmitPlayableFinishTrigger: 
+  SubmitPlayableFinishAddFlgName: 
+  SubmitPlayableFinishMessage: "\uFF1CTrigger\u304C\u306A\u3044\u5834\u5408\u518D\u751F\uFF1E"
+  FinishTable:
+    m_list: []
+  _isDebugX: 0

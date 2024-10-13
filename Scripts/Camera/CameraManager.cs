@@ -1,4 +1,5 @@
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace develop_easymovie
     {
         [Header("自動取得")]
         public List<CinemachineVirtualCamera> VCams = new List<CinemachineVirtualCamera>();
+        public List<CinemachineFreeLook> FreeLooks = new List<CinemachineFreeLook>();
 
         // 現在アクティブのカメラ
         private CinemachineVirtualCamera _activeVcam;
@@ -17,6 +19,8 @@ namespace develop_easymovie
         {
             foreach (var cam in FindObjectsOfType<CinemachineVirtualCamera>())
                 VCams.Add(cam);
+            foreach (var freeCam in FindObjectsOfType<CinemachineFreeLook>())
+                FreeLooks.Add(freeCam);
         }
 
         /// <summary>
@@ -55,8 +59,17 @@ namespace develop_easymovie
                 if (VCams[i].name == cameraName)
                     return VCams[i];
             }
-
             return null;
+        }
+        public async void ChangeFreeLookCamera(CinemachineFreeLook cinemachineFreeLook)
+        {
+            foreach (var cam in VCams)
+                cam.m_Priority = 0;
+            foreach (var freeCam in FreeLooks)
+                freeCam.m_Priority = 0;
+
+            await UniTask.Delay(100);
+            cinemachineFreeLook.m_Priority = 30;
         }
     }
 }
