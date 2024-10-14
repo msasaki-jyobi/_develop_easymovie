@@ -21,6 +21,7 @@ namespace develop_easymovie
 
 
 
+
         public DictionaryStringString FinishTable = new DictionaryStringString();
 
         [SerializeField] private bool _isDebugX;

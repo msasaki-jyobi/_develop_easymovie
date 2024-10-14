@@ -131,7 +131,7 @@ namespace develop_easymovie
 
             _playingEasyMoviePlayer = null;
             UnitRigidBody.isKinematic = false;
-            UnitActionLoader.ChangeStatus(EUnitStatus.Ready);
+            //UnitActionLoader.ChangeStatus(EUnitStatus.Ready);
 
             // ìoò^Ç≥ÇÍÇΩEMÇÃFinishÇé¿çs
             MovieFinishEvent?.Invoke();
