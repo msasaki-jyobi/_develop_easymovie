@@ -16,6 +16,9 @@ namespace develop_easymovie
         public List<StringEventHandle> ExitEvent = new List<StringEventHandle>();
 
         private TalkOptionSample TalkOption;
+        private bool _isHit;
+        private bool _isPlaying;
+
         void Start()
         {
             TalkOption = TalkOptionSample.Instance;
@@ -23,14 +26,19 @@ namespace develop_easymovie
             {
                 //TalkManager.Instance.TalkStartEvent += OnTalkStartEvent;
                 //TalkManager.Instance.TalkUpdateEvent += OnTalkEventHandle;
-                //TalkManager.Instance.TalkFinishEvent += OnTalkFinishEvent;
+                TalkManager.Instance.TalkFinishEvent += OnTalkFinishEvent;
             }
             
         }
 
         void Update()
         {
-
+            if(Input.GetKeyDown(KeyCode.V))
+                if(_isHit && !_isPlaying)
+                {
+                    _isPlaying = true;
+                    TalkManager.Instance.StartTyping(Talks);
+                }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -57,6 +65,7 @@ namespace develop_easymovie
         {
             if (hit.name == TargetName)
             {
+                _isHit = true;
                 if (TalkOption != null)
                     //Debug.Log($"Enter hit:{hit}, eventName:{EnterEvent.EventName}, eventValue:{EnterEvent.EventValue}");
                     foreach (var ev in EnterEvent)
@@ -68,6 +77,7 @@ namespace develop_easymovie
         {
             if (hit.name == TargetName)
             {
+                _isHit = false;
                 if (TalkOption != null)
                     //Debug.Log($"Exit hit:{hit}, eventName:{ExitEvent.EventName}, eventValue:{ExitEvent.EventValue}");
                     foreach (var ev in ExitEvent)
@@ -98,12 +108,12 @@ namespace develop_easymovie
         //            break;
         //    }
         //}
-        ///// <summary>
-        ///// トーク終了時にこのオブジェクトが行いたい処理
-        ///// </summary>
-        //private void OnTalkFinishEvent()
-        //{
-        //    CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
-        //}
+        /// <summary>
+        /// トーク終了時にこのオブジェクトが行いたい処理
+        /// </summary>
+        private void OnTalkFinishEvent()
+        {
+            _isPlaying = false;
+        }
     }
 }

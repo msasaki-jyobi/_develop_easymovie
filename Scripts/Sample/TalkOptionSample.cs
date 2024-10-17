@@ -10,6 +10,7 @@ namespace develop_easymovie
         [SerializeField] private bool IsTabDebug;
         public List<TalkData> DebugTalks = new List<TalkData>();
 
+
         // Start is called before the first frame update
         void Start()
         {
