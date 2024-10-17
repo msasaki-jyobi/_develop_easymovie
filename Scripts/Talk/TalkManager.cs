@@ -20,7 +20,7 @@ namespace develop_easymovie
         public ELanguage GameLanguage;
 
         public TMP_Text TextComponent;      // 表示するTextMeshProコンポーネント
-        public ClipData TypingSound;        // 効果音
+        public develop_common.ClipData TypingSound;        // 効果音
         public float TypingSpeed = 0.05f;   // 文字が表示されるスピード(秒)
         public float FastTypingSpeed = 0.01f; // スペースキーが押された時の高速スピード
 
@@ -80,6 +80,8 @@ namespace develop_easymovie
             TalkFinishEvent?.Invoke();
 
             _isTyping = false;  // タイピング終了フラグをオフ
+
+            TextComponent.text = "";  // テキストをクリア
         }
 
         // 文字列を一文字ずつ表示するタスク

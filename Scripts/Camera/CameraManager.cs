@@ -14,6 +14,7 @@ namespace develop_easymovie
 
         // 現在アクティブのカメラ
         private CinemachineVirtualCamera _activeVcam;
+        private TalkManager _talkManager;
 
         private void Start()
         {
@@ -21,6 +22,16 @@ namespace develop_easymovie
                 VCams.Add(cam);
             foreach (var freeCam in FindObjectsOfType<CinemachineFreeLook>())
                 FreeLooks.Add(freeCam);
+
+            _talkManager = TalkManager.Instance;
+            if (_talkManager != null)
+            {
+
+                _talkManager.TalkStartEvent += OnTalkStartHandle;
+                _talkManager.TalkUpdateEvent += OnTalkUpdateHandle;
+                _talkManager.TalkFinishEvent += OnTalkFinishHandle;
+            }
+
         }
 
         /// <summary>
@@ -34,6 +45,7 @@ namespace develop_easymovie
 
             _activeVcam = vcam;
             _activeVcam.m_Priority = 30;
+            Debug.Log($"ActiveCamera:{_activeVcam.name}");
         }
         /// <summary>
         /// オブジェクト名と一致するカメラが合ったら、一致した名前の切り替える
@@ -70,6 +82,21 @@ namespace develop_easymovie
 
             await UniTask.Delay(100);
             cinemachineFreeLook.m_Priority = 30;
+        }
+
+        private void OnTalkStartHandle()
+        {
+
+        }
+
+        private void OnTalkUpdateHandle(string eventName, string eventValue)
+        {
+            if (eventName == "Camera")
+                OnSelectChangeCamera(eventValue);
+        }
+        private void OnTalkFinishHandle()
+        {
+            _activeVcam.m_Priority = 0;
         }
     }
 }
