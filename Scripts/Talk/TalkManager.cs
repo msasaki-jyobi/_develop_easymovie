@@ -132,7 +132,7 @@ namespace develop_easymovie
             // スペースキーが押されるのを待機
             while (!token.IsCancellationRequested)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     if (_isSkipping || _isTextFullyDisplayed)
                     {

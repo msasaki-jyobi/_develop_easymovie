@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using develop_common;
 using System;
 using System.Collections;
@@ -38,7 +39,7 @@ namespace develop_easymovie
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.E))
                 if (_isHit && !_isPlaying)
                 {
                     _isPlaying = true;
@@ -117,8 +118,9 @@ namespace develop_easymovie
         /// <summary>
         /// トーク終了時にこのオブジェクトが行いたい処理
         /// </summary>
-        private void OnTalkFinishEvent()
+        private async void OnTalkFinishEvent()
         {
+            await UniTask.Delay(100);
             _isPlaying = false;
         }
     }
