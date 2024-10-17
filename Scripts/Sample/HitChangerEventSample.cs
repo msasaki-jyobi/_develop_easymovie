@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace develop_easymovie
 {
-    public class HitChangerEvent : MonoBehaviour
+    public class HitChangerEventSample : MonoBehaviour
     {
-        public HitEvent HitTalkEvent;
+        public HitEventSample HitTalkEvent;
         public string ChangeFlgName;
         public List<TalkData> Talks = new List<TalkData>();
         public List<StringEventHandle> EnterEvent = new List<StringEventHandle>();

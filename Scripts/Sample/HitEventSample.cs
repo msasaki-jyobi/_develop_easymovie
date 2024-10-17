@@ -7,7 +7,7 @@ namespace develop_easymovie
 {
     [RequireComponent(typeof(BoxCollider))]
 
-    public class HitEvent : MonoBehaviour
+    public class HitEventSample : MonoBehaviour
     {
         public string TargetName = "Player";
         public List<TalkData> Talks = new List<TalkData>();
@@ -15,10 +15,10 @@ namespace develop_easymovie
         public List<StringEventHandle> EnterEvent = new List<StringEventHandle>();
         public List<StringEventHandle> ExitEvent = new List<StringEventHandle>();
 
-        private TalkOption TalkOption;
+        private TalkOptionSample TalkOption;
         void Start()
         {
-            TalkOption = TalkOption.Instance;
+            TalkOption = TalkOptionSample.Instance;
             if(TalkOption != null)
             {
                 //TalkManager.Instance.TalkStartEvent += OnTalkStartEvent;

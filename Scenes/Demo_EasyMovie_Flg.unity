@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitTalkEvent: {fileID: 1346739367}
-  ChangeFlgName: "\u3042\u3042\u3042"
+  ChangeFlgName: "\u30D0\u30B1\u30C4\u5165\u624B"
   Talks:
   - StringEvent: []
     JapaneseTalkText: "\u305D\u3046\u304B\u6301\u3063\u3066\u304D\u305F\u3093\u3060\u306D"
@@ -3418,11 +3418,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1346739360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26d21e31de88f2845870711f461743fe, type: 3}
+  m_Script: {fileID: 11500000, guid: e169003021f590948bba0bcadb16342e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TargetName: Player
-  Talks: []
+  Talks:
+  - StringEvent:
+    - EventName: AddItem
+      EventValue: "\u3068\u307E\u3068"
+    JapaneseTalkText: aaa
+    EnglishTalkText: 1
   EnterEvent: []
   ExitEvent: []
 --- !u!1 &1442124439
@@ -4297,9 +4302,9 @@ SceneRoots:
   - {fileID: 1766395358}
   - {fileID: 1708478812}
   - {fileID: 881077499}
+  - {fileID: 1497641344}
   - {fileID: 180388130}
   - {fileID: 1252949246}
-  - {fileID: 1497641344}
   - {fileID: 1346739364}
   - {fileID: 1664901726}
   - {fileID: 563473333}

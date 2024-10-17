@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace develop_easymovie
 {
-    public class TalkOption : SingletonMonoBehaviour<TalkOption>
+    public class TalkOptionSample : SingletonMonoBehaviour<TalkOptionSample>
     {
 
         [SerializeField] private bool IsTabDebug;
