@@ -48,6 +48,12 @@ namespace develop_easymovie
                 case "Camera":
                     CameraManager.Instance.OnSelectChangeCamera(eventValue);
                     break;
+                case "AddItem":
+                    FlgManager.Instance.AddFlg(eventValue, 1); // アイテム名を渡して1追加する
+                    break;
+                case "CostItem":
+                    FlgManager.Instance.AddFlg(eventValue, -1); // アイテム名を渡して1減らす
+                    break;
             }
         }
         /// <summary>

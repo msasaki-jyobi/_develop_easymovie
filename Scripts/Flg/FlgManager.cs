@@ -22,18 +22,18 @@ namespace develop_easymovie
         /// </summary>
         /// <param name="eventFlgName"></param>
         /// <param name="value"></param>
-        public void AddFlg(string eventFlgName, string value)
+        public void AddFlg(string eventFlgName, int value)
         {
             for (int i = 0; i < FlgEvents.Count; i++)
             {
                 if (FlgEvents[i].EventName == eventFlgName)
                 {
                     // ‰ÁŽZˆ—
-                    var valueA = FlgEvents[i].EventValue;
-                    var valueB = value;
-                    int total = int.Parse(valueA + valueB);
+                    int valueA = int.Parse(FlgEvents[i].EventValue);
+                    int valueB = value;
+                    int total = valueA + valueB;
 
-                    FlgEvents[i].EventValue += total.ToString();
+                    FlgEvents[i].EventValue = total.ToString();
                     CheckFlgEvent?.Invoke(eventFlgName, total.ToString());
 
                     Debug.Log($"{eventFlgName} ‰ÁŽZ”F{value}, Žc‚èF{total}");
@@ -44,7 +44,7 @@ namespace develop_easymovie
             // ‘¶Ý‚µ‚È‚¢ê‡
             var flg = new StringEventHandle();
             flg.EventName = eventFlgName;
-            flg.EventValue = value;
+            flg.EventValue = value.ToString();
             FlgEvents.Add(flg);
         }
 
@@ -78,8 +78,7 @@ namespace develop_easymovie
                 if (FlgEvents[i].EventName == eventFlgName)
                 {
                     // ‰ÁŽZˆ—
-                    var valueA = FlgEvents[i].EventValue;
-                    int result = int.Parse(valueA);
+                    int result = int.Parse(FlgEvents[i].EventValue);
 
                     return result;
                 }

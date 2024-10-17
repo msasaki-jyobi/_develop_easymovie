@@ -454,8 +454,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f82f18ecb88988408ea65aab6121d1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTabDebug: 0
-  DebugTalks: []
+  IsTabDebug: 1
+  DebugTalks:
+  - StringEvent:
+    - EventName: AddItem
+      EventValue: "\u306B\u3093\u3058\u3093"
+    JapaneseTalkText: aaa
+    EnglishTalkText: 
 --- !u!4 &180388130
 Transform:
   m_ObjectHideFlags: 0
