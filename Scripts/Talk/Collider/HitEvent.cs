@@ -11,6 +11,11 @@ namespace develop_easymovie
 
     public class HitEvent : MonoBehaviour
     {
+        public bool IsHiddenCheckFlg;
+        public string HiddenFlgName = "";
+        public bool IsPlayingCheckFlg;
+        public string PlayingFlgName = "";
+        [Space(10)]
         public string TargetName = "Player";
         public List<TalkData> Talks = new List<TalkData>();
 
@@ -24,6 +29,11 @@ namespace develop_easymovie
 
         public event Action<StringEventHandle> HitEnterEvent;
         public event Action<StringEventHandle> HitExitEvent;
+
+        public bool IsHitAutoPlay;
+        public bool OnePlayHide;
+
+        private bool _isHidden;
 
         void Start()
         {
@@ -40,10 +50,22 @@ namespace develop_easymovie
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.E))
-                if (_isHit && !_isPlaying)
+                if (_isHit && !IsHitAutoPlay)
+                {
+                    TalkPlay();
+                }
+        }
+
+        public void TalkPlay()
+        {
+            if (!_isHidden)
+                if (!_isPlaying)
                 {
                     _isPlaying = true;
                     TalkManager.Instance.StartTyping(Talks);
+
+                    if(OnePlayHide)
+                        _isHidden = true;
                 }
         }
 
@@ -67,22 +89,41 @@ namespace develop_easymovie
             OnExit(other.gameObject);
         }
 
-        private void OnHit(GameObject hit)
+        private async void OnHit(GameObject hit)
         {
             if (hit.name == TargetName)
             {
+                if (!PlayFlgCheck()) // フラグが持ってない場合Return
+                    return;
+                if (HiddenFlgCheck()) // 非表示フラグがあったらReturn
+                    return;
+
+                await UniTask.Delay(10);
+
+
                 _isHit = true;
                 if (_talkManager != null)
                     foreach (var enter in EnterEvent) // このオブジェクトに登録されているイベントを呼び出す
                         HitEnterEvent?.Invoke(enter);
                 //Debug.Log($"Enter hit:{hit}, eventName:{EnterEvent.}, eventValue:{EnterEvent.EventValue}");
+
+                if (IsHitAutoPlay)
+                    TalkPlay();
             }
         }
 
-        private void OnExit(GameObject hit)
+        private async void OnExit(GameObject hit)
         {
             if (hit.name == TargetName)
             {
+                if (PlayFlgCheck()) // フラグが持ってない場合Return
+                    return;
+                if (!HiddenFlgCheck()) // 非表示フラグがあったらReturn
+                    return;
+
+                await UniTask.Delay(10);
+
+
                 _isHit = false;
                 if (_talkManager != null)
                     foreach (var exit in ExitEvent) // このオブジェクトに登録されているイベントを呼び出す
@@ -122,6 +163,26 @@ namespace develop_easymovie
         {
             await UniTask.Delay(100);
             _isPlaying = false;
+        }
+        /// <summary>
+        /// true = 実行可能です
+        /// </summary>
+        /// <returns></returns>
+        public bool PlayFlgCheck() 
+        {
+            if(!IsPlayingCheckFlg) return true;
+
+            return FlgManager.Instance.CheckSelectNameFlg(PlayingFlgName); // フラグが"存在する" 場合 true 
+        }
+        /// <summary>
+        /// true = 実行不可能です
+        /// </summary>
+        /// <returns></returns>
+        public bool HiddenFlgCheck()
+        {
+            if (!IsHiddenCheckFlg) return false;
+
+            return FlgManager.Instance.CheckSelectNameFlg(HiddenFlgName); // 非表示フラグが"存在する" 場合 true
         }
     }
 }

@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace develop_easymovie
 {
-    public class TalkOptionSample : SingletonMonoBehaviour<TalkOptionSample>
+    public class TalkOption : SingletonMonoBehaviour<TalkOption>
     {
 
         [SerializeField] private bool IsTabDebug;
         public List<TalkData> DebugTalks = new List<TalkData>();
 
 
-        // Start is called before the first frame update
         void Start()
         {
             TalkManager.Instance.TalkStartEvent += OnTalkStartEvent;
@@ -19,7 +18,6 @@ namespace develop_easymovie
             TalkManager.Instance.TalkFinishEvent += OnTalkFinishEvent;
         }
 
-        // Update is called once per frame
         void Update()
         {
 
@@ -55,6 +53,11 @@ namespace develop_easymovie
                 case "CostItem":
                     FlgManager.Instance.AddFlg(eventValue, -1); // アイテム名を渡して1減らす
                     break;
+                case "QuestSelect": // クエスト選択画面を出す
+                    develop_common.UIStateManager.Instance.OnChangeStateAndButtons("QuestSelect");
+                    break;
+
+
             }
         }
         /// <summary>

@@ -132,7 +132,12 @@ namespace develop_easymovie
             // スペースキーが押されるのを待機
             while (!token.IsCancellationRequested)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                bool check = true;
+                var currentState = develop_common.UIStateManager.Instance.GetCurrentStateName();
+                check = check && currentState != "QuestSelect" && currentState != "QuestSubmit";
+
+                if (check)
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Tab))
                 {
                     if (_isSkipping || _isTextFullyDisplayed)
                     {
@@ -154,6 +159,26 @@ namespace develop_easymovie
         public void SetTypingSpeed(float newSpeed)
         {
             TypingSpeed = newSpeed;
+        }
+
+        public void ForceStopTyping()
+        {
+            // もしタイピング中なら、現在のタスクをキャンセル
+            if (_isTyping)
+            {
+                _cts?.Cancel();  // 現在のタスクをキャンセル
+                _isTyping = false;  // タイピングフラグをオフにする
+
+                // 必要に応じて状態をリセット
+                _isSkipping = false;
+                _isTextFullyDisplayed = false;
+
+                // テキスト表示をクリアする
+                TextComponent.text = "";
+
+                // 会話終了のイベントを発火する（必要なら）
+                TalkFinishEvent?.Invoke();
+            }
         }
     }
 }
