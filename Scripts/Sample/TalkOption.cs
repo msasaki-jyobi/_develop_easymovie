@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 namespace develop_easymovie
 {
     public class TalkOption : SingletonMonoBehaviour<TalkOption>
@@ -10,6 +11,8 @@ namespace develop_easymovie
         [SerializeField] private bool IsTabDebug;
         public List<TalkData> DebugTalks = new List<TalkData>();
 
+        public UnityEvent TalkStartUnityEvent;
+        public UnityEvent TalkFinishUnityEvent;
 
         void Start()
         {
@@ -32,6 +35,15 @@ namespace develop_easymovie
         private void OnTalkStartEvent()
         {
             Debug.Log("Start!!");
+            TalkStartUnityEvent?.Invoke();
+        }
+        /// <summary>
+        /// トーク終了時に呼びだしたい処理
+        /// </summary>
+        private void OnTalkFinishEvent()
+        {
+            CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
+            TalkFinishUnityEvent?.Invoke();
         }
         /// <summary>
         /// トーク中に呼ばれたイベントに応じて呼び出したい処理
@@ -60,13 +72,7 @@ namespace develop_easymovie
 
             }
         }
-        /// <summary>
-        /// トーク終了時に呼びだしたい処理
-        /// </summary>
-        private void OnTalkFinishEvent()
-        {
-            CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
-        }
+
         /// <summary>
         /// トークを持つオブジェクトに触れたときに呼び出したい処理
         /// </summary>
