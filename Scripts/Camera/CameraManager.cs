@@ -42,6 +42,8 @@ namespace develop_easymovie
         {
             if (_activeVcam != null)
                 _activeVcam.m_Priority = 0;
+            foreach (var freeCam in FreeLooks)
+                freeCam.m_Priority = 0;
 
             _activeVcam = vcam;
             _activeVcam.m_Priority = 30;
