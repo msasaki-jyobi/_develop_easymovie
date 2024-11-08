@@ -42,7 +42,7 @@ namespace develop_easymovie
         /// </summary>
         private void OnTalkFinishEvent()
         {
-            CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
+            //CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
             TalkFinishUnityEvent?.Invoke();
         }
         /// <summary>

@@ -2,12 +2,19 @@ using Cinemachine;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace develop_easymovie
 {
     public class CameraManager : SingletonMonoBehaviour<CameraManager>
     {
+        // デフォルトのカメラ
+        [Header("追加機能：JKey 切り替え")]
+        public List<CinemachineVirtualCamera> DefaultVcams;
+        public CinemachineFreeLook DefaultFreeLook;
+
+
         [Header("自動取得")]
         public List<CinemachineVirtualCamera> VCams = new List<CinemachineVirtualCamera>();
         public List<CinemachineFreeLook> FreeLooks = new List<CinemachineFreeLook>();
@@ -15,6 +22,7 @@ namespace develop_easymovie
         // 現在アクティブのカメラ
         private CinemachineVirtualCamera _activeVcam;
         private TalkManager _talkManager;
+        public ReactiveProperty<int> CameraSlotNum = new ReactiveProperty<int>();
 
         private void Start()
         {
@@ -26,12 +34,33 @@ namespace develop_easymovie
             _talkManager = TalkManager.Instance;
             if (_talkManager != null)
             {
-
                 _talkManager.TalkStartEvent += OnTalkStartHandle;
                 _talkManager.TalkUpdateEvent += OnTalkUpdateHandle;
                 _talkManager.TalkFinishEvent += OnTalkFinishHandle;
             }
 
+            CameraSlotNum
+                .Subscribe((x) =>
+                {
+                    if (CameraSlotNum.Value == 100) return;
+
+                    var max = DefaultVcams.Count; // FreeLookのカメラNum
+
+                    if (CameraSlotNum.Value == max)
+                        ChangeFreeLookCamera(DefaultFreeLook);
+                    else
+                    {
+                        ChangeActiveCamera(DefaultVcams[CameraSlotNum.Value]);
+
+                    }
+                });
+        }
+
+        private void Update()
+        {
+            // カメラ切り替え
+            if (Input.GetKeyDown(KeyCode.J))
+                SetDefaultCamera();
         }
 
         /// <summary>
@@ -75,6 +104,10 @@ namespace develop_easymovie
             }
             return null;
         }
+        /// <summary>
+        /// 指定されたFreeCameraに切り替える
+        /// </summary>
+        /// <param name="cinemachineFreeLook"></param>
         public async void ChangeFreeLookCamera(CinemachineFreeLook cinemachineFreeLook)
         {
             foreach (var cam in VCams)
@@ -84,6 +117,54 @@ namespace develop_easymovie
 
             await UniTask.Delay(100);
             cinemachineFreeLook.m_Priority = 30;
+        }
+
+        ///// <summary>
+        ///// 一定時間引数のカメラに切り替え、時間経過後元のカメラに戻す
+        ///// </summary>
+        ///// <param name="vcam"></param>
+        ///// <param name="timer"></param>
+        //public async void ChangeTimeCamera(CinemachineVirtualCamera vcam, float timer = 1f)
+        //{
+        //    var oldCamera = _activeVcam;
+        //    ChangeActiveCamera(vcam);
+        //    await UniTask.Delay((int)(1000 * timer));
+        //    ChangeActiveCamera(oldCamera);
+        //}
+
+        /// <summary>
+        /// ランダムなUnitInstanceカメラに切り替え、LookAt対象をTargetにする
+        /// </summary>
+        public void ChangeRandomCamera(Transform Target, List<CinemachineVirtualCamera> randomCameras)
+        {
+            if (randomCameras == null) return;
+            if (randomCameras.Count == 0) return;
+
+            int ran = Random.Range(0, randomCameras.Count);
+            ChangeActiveCamera(randomCameras[ran]);
+            randomCameras[ran].LookAt = Target;
+        }
+        /// <summary>
+        /// デフォルトカメラを切り替える
+        /// </summary>
+        public async void SetDefaultCamera(bool isChange = true)
+        {
+            if (DefaultVcams == null) return;
+            if (DefaultVcams.Count == 0) return;
+            if (DefaultFreeLook == null) return;
+
+            if (isChange) // 次のカメラに切り替える
+            {
+                var num = CameraSlotNum.Value;
+                CameraSlotNum.Value = num >= DefaultVcams.Count ? 0 : num + 1;
+            }
+            else // 切り替え前の状態に戻す
+            {
+                if (CameraSlotNum.Value >= DefaultVcams.Count)
+                    ChangeFreeLookCamera(DefaultFreeLook);
+                else
+                    ChangeActiveCamera(DefaultVcams[CameraSlotNum.Value]);
+            }
         }
 
         private void OnTalkStartHandle()
@@ -98,7 +179,7 @@ namespace develop_easymovie
         }
         private void OnTalkFinishHandle()
         {
-            _activeVcam.m_Priority = 0;
+            SetDefaultCamera(false);
         }
     }
 }
