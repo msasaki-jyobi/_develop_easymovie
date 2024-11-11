@@ -113,13 +113,16 @@ namespace develop_easymovie
         /// <param name="cinemachineFreeLook"></param>
         public async void ChangeFreeLookCamera(CinemachineFreeLook cinemachineFreeLook)
         {
-            foreach (var cam in VCams)
+            if (cinemachineFreeLook == null)
+                return;
+
+                foreach (var cam in VCams)
                 cam.m_Priority = 0;
             foreach (var freeCam in FreeLooks)
                 freeCam.m_Priority = 0;
 
             await UniTask.Delay(100);
-            cinemachineFreeLook.m_Priority = 30;
+                cinemachineFreeLook.m_Priority = 30;
         }
 
         ///// <summary>
