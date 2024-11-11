@@ -1,5 +1,6 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -73,6 +74,8 @@ namespace develop_easymovie
                 _activeVcam.m_Priority = 0;
             foreach (var freeCam in FreeLooks)
                 freeCam.m_Priority = 0;
+            foreach (var cam in VCams)
+                cam.m_Priority = 0;
 
             _activeVcam = vcam;
             _activeVcam.m_Priority = 30;
@@ -135,14 +138,27 @@ namespace develop_easymovie
         /// <summary>
         /// ランダムなUnitInstanceカメラに切り替え、LookAt対象をTargetにする
         /// </summary>
-        public void ChangeRandomCamera(Transform Target, List<CinemachineVirtualCamera> randomCameras)
+        public void ChangeRandomCamera(Transform Target, CinemachineFreeLook freeLook)
         {
-            if (randomCameras == null) return;
-            if (randomCameras.Count == 0) return;
+            if (freeLook == null) return;
 
-            int ran = Random.Range(0, randomCameras.Count);
-            ChangeActiveCamera(randomCameras[ran]);
-            randomCameras[ran].LookAt = Target;
+            freeLook.Follow = Target;
+            freeLook.LookAt = Target;
+
+            // パラメータも設定
+            freeLook.m_Orbits[0].m_Radius = Random.Range(0.1f, 1);
+            freeLook.m_Orbits[1].m_Radius = Random.Range(0.1f, 1);
+            freeLook.m_Orbits[2].m_Radius = Random.Range(0.1f, 1);
+
+            freeLook.m_Orbits[0].m_Height = Random.Range(0.5f, 1);
+            freeLook.m_Orbits[1].m_Height = Random.Range(0.1f, 1);
+            freeLook.m_Orbits[2].m_Height = Random.Range(-0f, -1);
+
+            //freeLook.m_YAxis.Value = 0;
+            //freeLook.m_XAxis.Value = 0;
+
+
+            ChangeFreeLookCamera(freeLook);
         }
         /// <summary>
         /// デフォルトカメラを切り替える
