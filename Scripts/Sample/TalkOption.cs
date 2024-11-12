@@ -1,3 +1,4 @@
+using develop_common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,45 +6,14 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace develop_easymovie
 {
+    // 会話処理中の全体補助
     public class TalkOption : SingletonMonoBehaviour<TalkOption>
     {
-
-        [SerializeField] private bool IsTabDebug;
-        public List<TalkData> DebugTalks = new List<TalkData>();
-
-        public UnityEvent TalkStartUnityEvent;
-        public UnityEvent TalkFinishUnityEvent;
-
         void Start()
         {
-            TalkManager.Instance.TalkStartEvent += OnTalkStartEvent;
+            TalkManager.Instance.TalkStartEvent += OnTalkEventHandle;
             TalkManager.Instance.TalkUpdateEvent += OnTalkEventHandle;
-            TalkManager.Instance.TalkFinishEvent += OnTalkFinishEvent;
-        }
-
-        void Update()
-        {
-
-            if (Input.GetKeyDown(KeyCode.Tab))
-                if (IsTabDebug)
-                    TalkManager.Instance.StartTyping(DebugTalks);
-        }
-
-        /// <summary>
-        /// トーク開始時に実行したい処理
-        /// </summary>
-        private void OnTalkStartEvent()
-        {
-            Debug.Log("Start!!");
-            TalkStartUnityEvent?.Invoke();
-        }
-        /// <summary>
-        /// トーク終了時に呼びだしたい処理
-        /// </summary>
-        private void OnTalkFinishEvent()
-        {
-            //CameraManager.Instance.OnSelectChangeCamera("DefaultCamera");
-            TalkFinishUnityEvent?.Invoke();
+            TalkManager.Instance.TalkFinishEvent += OnTalkEventHandle;
         }
         /// <summary>
         /// トーク中に呼ばれたイベントに応じて呼び出したい処理
@@ -71,47 +41,6 @@ namespace develop_easymovie
 
 
             }
-        }
-
-        /// <summary>
-        /// トークを持つオブジェクトに触れたときに呼び出したい処理
-        /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="eventValue"></param>
-        public void OnEnterEventInvoke(GameObject self, GameObject hit, string eventName, string eventValue)
-        {
-            Debug.Log($"Enter: " +
-                $"self:{self.gameObject.name}," +
-                $"hit:{hit.gameObject.name}" +
-                $"eventName:{eventName}," +
-                $"eventValue:{eventValue}");
-
-            // 該当オブジェクトを光らせる
-
-
-            // イベントの実行
-            switch (eventName)
-            {
-                case "GetA":
-                    GameObject a = new GameObject();
-                    a.name = "aaa";
-                    break;
-            }
-        }
-        /// <summary>
-        /// トークを持つオブジェクトから離れたときに呼び出したい処理
-        /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="eventValue"></param>
-        public void OnExitEventInvoke(GameObject self, GameObject hit, string eventName, string eventValue)
-        {
-            Debug.Log($"Exit: " +
-                $"self:{self.gameObject.name}," +
-                $"hit:{hit.gameObject.name}" +
-                $"eventName:{eventName}," +
-                $"eventValue:{eventValue}");
-
-            // 該当オブジェクトを消灯する
         }
     }
 }

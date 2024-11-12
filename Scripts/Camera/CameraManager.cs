@@ -35,9 +35,7 @@ namespace develop_easymovie
             _talkManager = TalkManager.Instance;
             if (_talkManager != null)
             {
-                _talkManager.TalkStartEvent += OnTalkStartHandle;
                 _talkManager.TalkUpdateEvent += OnTalkUpdateHandle;
-                _talkManager.TalkFinishEvent += OnTalkFinishHandle;
             }
 
             CameraSlotNum
@@ -68,7 +66,7 @@ namespace develop_easymovie
         /// 渡されたカメラに切り替える（アクティブカメラを切り替える）
         /// </summary>
         /// <param name="vcam"></param>
-        public void ChangeActiveCamera(CinemachineVirtualCamera vcam)
+        public async void ChangeActiveCamera(CinemachineVirtualCamera vcam)
         {
             if (_activeVcam != null)
                 _activeVcam.m_Priority = 0;
@@ -77,9 +75,11 @@ namespace develop_easymovie
             foreach (var cam in VCams)
                 cam.m_Priority = 0;
 
+            await UniTask.Delay(1);
+
             _activeVcam = vcam;
             _activeVcam.m_Priority = 30;
-            Debug.Log($"ActiveCamera:{_activeVcam.name}");
+            Debug.Log($"ActiveCamera　カメラを切り替えました:{_activeVcam.name}");
         }
         /// <summary>
         /// オブジェクト名と一致するカメラが合ったら、一致した名前の切り替える
@@ -90,7 +90,9 @@ namespace develop_easymovie
             for (int i = 0; i < VCams.Count; i++)
             {
                 if (VCams[i].name == cameraName)
+                {
                     ChangeActiveCamera(VCams[i]);
+                }
             }
         }
         /// <summary>

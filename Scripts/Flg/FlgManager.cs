@@ -7,16 +7,7 @@ namespace develop_easymovie
 {
     public class FlgManager : SingletonMonoBehaviour<FlgManager>
     {
-        public List<StringEventHandle> FlgEvents = new List<StringEventHandle>();
-
-        public event Action<string, string> CheckFlgEvent;
-        // Fっていうフラグがたったら、このオブジェクトをこれで上書きするね　を実行するタイミング
-        private void Start()
-        {
-            foreach (StringEventHandle flg in FlgEvents)
-                CheckFlgEvent?.Invoke(flg.EventName, flg.EventValue);
-        }
-
+        public List<StringEventHandle> FlgItems = new List<StringEventHandle>();
         /// <summary>
         /// フラグイベントを新規追加・加算する
         /// </summary>
@@ -24,18 +15,16 @@ namespace develop_easymovie
         /// <param name="value"></param>
         public void AddFlg(string eventFlgName, int value)
         {
-            for (int i = 0; i < FlgEvents.Count; i++)
+            for (int i = 0; i < FlgItems.Count; i++)
             {
-                if (FlgEvents[i].EventName == eventFlgName)
+                if (FlgItems[i].EventName == eventFlgName)
                 {
                     // 加算処理
-                    int valueA = int.Parse(FlgEvents[i].EventValue);
+                    int valueA = int.Parse(FlgItems[i].EventValue);
                     int valueB = value;
                     int total = valueA + valueB;
 
-                    FlgEvents[i].EventValue = total.ToString();
-                    CheckFlgEvent?.Invoke(eventFlgName, total.ToString());
-
+                    FlgItems[i].EventValue = total.ToString();
                     Debug.Log($"{eventFlgName} 加算数：{value}, 残り：{total}");
                     return;
                 }
@@ -45,7 +34,7 @@ namespace develop_easymovie
             var flg = new StringEventHandle();
             flg.EventName = eventFlgName;
             flg.EventValue = value.ToString();
-            FlgEvents.Add(flg);
+            FlgItems.Add(flg);
         }
 
         /// <summary>
@@ -55,9 +44,9 @@ namespace develop_easymovie
         /// <returns></returns>
         public bool CheckSelectNameFlg(string eventFlgName)
         {
-            for (int i = 0; i < FlgEvents.Count; i++)
+            for (int i = 0; i < FlgItems.Count; i++)
             {
-                if (FlgEvents[i].EventName == eventFlgName)
+                if (FlgItems[i].EventName == eventFlgName)
                 {
                     return true;
                 }
@@ -73,12 +62,12 @@ namespace develop_easymovie
         /// <returns></returns>
         public int GetSelectNameFlgValue(string eventFlgName)
         {
-            for (int i = 0; i < FlgEvents.Count; i++)
+            for (int i = 0; i < FlgItems.Count; i++)
             {
-                if (FlgEvents[i].EventName == eventFlgName)
+                if (FlgItems[i].EventName == eventFlgName)
                 {
                     // 加算処理
-                    int result = int.Parse(FlgEvents[i].EventValue);
+                    int result = int.Parse(FlgItems[i].EventValue);
 
                     return result;
                 }
@@ -86,5 +75,6 @@ namespace develop_easymovie
             // 存在しない場合
             return 0;
         }
+
     }
 }

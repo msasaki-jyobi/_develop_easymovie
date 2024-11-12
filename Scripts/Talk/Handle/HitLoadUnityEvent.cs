@@ -9,7 +9,7 @@ namespace develop_easymovie
 {
     public class HitLoadUnityEvent : MonoBehaviour
     {
-        public HitEvent FlgCheckHitEvent;
+        public TalkEvent FlgCheckHitEvent;
 
         [SerializeField] private string TargetTag = "Unit";
         [SerializeField] private string TargetName = "Player";

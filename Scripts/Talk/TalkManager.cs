@@ -30,12 +30,13 @@ namespace develop_easymovie
         private bool _isTextFullyDisplayed = false; // 全ての文字が表示されたかどうか
         private float _currentTypingSpeed;     // 現在のタイピングスピード
 
-        public event Action TalkStartEvent;   // 会話が開始したときのイベント
-        public event Action TalkFinishEvent;  // 会話が終了したときのイベント
-        public event Action<string,string> TalkUpdateEvent;  // 一つのトークが始まるときのイベント
+        public event Action<string, string> TalkStartEvent;  // 一つのトークがはじまるときのイベント
+        public event Action<string, string> TalkUpdateEvent;  // 一つのトークが読み込むときのイベント
+        public event Action<string, string> TalkFinishEvent;  // 一つのトークがおわるときのイベント
 
         // 会話を開始する関数 (複数の会話文を処理する)
-        public void StartTyping(List<TalkData> talkDatas)
+        // hitEvent：EnterEvent、FinishEvent実行用
+        public void StartTyping(List<TalkData> talkDatas, TalkEvent talkEvent = null)
         {
             // もしすでにタイピング中なら前のタスクをキャンセル
             if (_isTyping)
@@ -46,15 +47,21 @@ namespace develop_easymovie
             // 新しいCancellationTokenSourceを作成
             _cts = new CancellationTokenSource();
 
+            // StartEvent
+            if (talkEvent != null)
+                foreach (var ev in talkEvent.TalkStartEvents)
+                    TalkStartEvent?.Invoke(ev.EventName, ev.EventValue);
+
             // 新たにタイピングエフェクトを開始 (List<string>を順に処理)
-            TypeTextSequence(talkDatas, _cts.Token).Forget();  // UniTaskを使用
+            TypeTextSequence(talkDatas, _cts.Token, talkEvent).Forget();  // UniTaskを使用
         }
 
         // 文字列リストを順番に表示するタスク
-        private async UniTaskVoid TypeTextSequence(List<TalkData> talkDatas, CancellationToken token)
+        private async UniTaskVoid TypeTextSequence(List<TalkData> talkDatas, CancellationToken token, TalkEvent talkEvent = null)
         {
             _isTyping = true;  // タイピング中フラグをオン
-            TalkStartEvent?.Invoke();  // テキスト開始イベント
+
+
 
             foreach (var text in talkDatas)
             {
@@ -64,7 +71,7 @@ namespace develop_easymovie
                 }
 
                 // イベント
-                foreach(var ev in text.StringEvent)
+                foreach (var ev in text.StringEvent)
                     TalkUpdateEvent?.Invoke(ev.EventName, ev.EventValue);
 
                 string loadText = GameLanguage == ELanguage.Japanese ? text.JapaneseTalkText : text.EnglishTalkText;
@@ -76,12 +83,22 @@ namespace develop_easymovie
                 await WaitForSpaceKeyPress(token);
             }
 
-            // 全てのテキストが表示終了したらイベントを呼ぶ
-            TalkFinishEvent?.Invoke();
-
             _isTyping = false;  // タイピング終了フラグをオフ
 
             TextComponent.text = "";  // テキストをクリア
+
+            // FinishEvent
+            if (talkEvent != null)
+            {
+                foreach (var ev in talkEvent.TalkFinishEvents)
+                    TalkFinishEvent?.Invoke(ev.EventName, ev.EventValue);
+
+                await UniTask.Delay(100);
+
+                talkEvent.IsPlaying = false;
+            }
+
+            Debug.Log("会話終了？");
         }
 
         // 文字列を一文字ずつ表示するタスク
@@ -124,6 +141,8 @@ namespace develop_easymovie
 
             // スピードを元に戻す
             _currentTypingSpeed = TypingSpeed;
+
+
         }
 
         // スペースキーが押されるのを待つタスク
@@ -132,11 +151,11 @@ namespace develop_easymovie
             // スペースキーが押されるのを待機
             while (!token.IsCancellationRequested)
             {
-                bool check = true;
-                var currentState = develop_common.UIStateManager.Instance.GetCurrentStateName();
-                check = check && currentState != "QuestSelect" && currentState != "QuestSubmit";
+                //bool check = true;
+                //var currentState = develop_common.UIStateManager.Instance.GetCurrentStateName();
+                //check = check && currentState != "QuestSelect" && currentState != "QuestSubmit";
+                //if (check)
 
-                if (check)
                 if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Tab))
                 {
                     if (_isSkipping || _isTextFullyDisplayed)
@@ -175,9 +194,6 @@ namespace develop_easymovie
 
                 // テキスト表示をクリアする
                 TextComponent.text = "";
-
-                // 会話終了のイベントを発火する（必要なら）
-                TalkFinishEvent?.Invoke();
             }
         }
     }
