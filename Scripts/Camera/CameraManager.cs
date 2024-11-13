@@ -71,9 +71,15 @@ namespace develop_easymovie
             if (_activeVcam != null)
                 _activeVcam.m_Priority = 0;
             foreach (var freeCam in FreeLooks)
+            {
+                if (freeCam == null) continue;
                 freeCam.m_Priority = 0;
+            }
             foreach (var cam in VCams)
+            {
+                if(cam == null) continue;
                 cam.m_Priority = 0;
+            }
 
             await UniTask.Delay(1);
 
@@ -181,10 +187,10 @@ namespace develop_easymovie
             }
             else // 切り替え前の状態に戻す
             {
-                if (CameraSlotNum.Value >= DefaultVcams.Count)
-                    ChangeFreeLookCamera(DefaultFreeLook);
-                else
-                    ChangeActiveCamera(DefaultVcams[CameraSlotNum.Value]);
+                //if (CameraSlotNum.Value >= DefaultVcams.Count)
+                //    ChangeFreeLookCamera(DefaultFreeLook);
+                //else
+                    ChangeActiveCamera(DefaultVcams[0]);
             }
         }
 
