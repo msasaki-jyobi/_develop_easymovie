@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8208c292de30494439e172e399f0248b, type: 3}
   m_Name: EasyMovieData
   m_EditorClassIdentifier: 
+  UnitName: Damager
+  ActionPrefab: {fileID: 0}
+  CameraName: CamA
+  BlendTime: 1
+  WorldPos: {x: 0, y: 0, z: 0}
+  WorldRot: {x: 0, y: 0, z: 0}

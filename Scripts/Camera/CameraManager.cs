@@ -12,9 +12,11 @@ namespace develop_easymovie
     {
         // デフォルトのカメラ
         [Header("追加機能：JKey 切り替え")]
+        public CinemachineBrain Brain;
+
+        [Header("追加機能：JKey 切り替え")]
         public List<CinemachineVirtualCamera> DefaultVcams;
         public CinemachineFreeLook DefaultFreeLook;
-
 
         [Header("自動取得")]
         public List<CinemachineVirtualCamera> VCams = new List<CinemachineVirtualCamera>();
@@ -66,8 +68,11 @@ namespace develop_easymovie
         /// 渡されたカメラに切り替える（アクティブカメラを切り替える）
         /// </summary>
         /// <param name="vcam"></param>
-        public async void ChangeActiveCamera(CinemachineVirtualCamera vcam)
+        public async void ChangeActiveCamera(CinemachineVirtualCamera vcam, float blendTime = -1)
         {
+            if (blendTime >= 0)
+                Brain.m_DefaultBlend.m_Time = blendTime;
+
             if (_activeVcam != null)
                 _activeVcam.m_Priority = 0;
             foreach (var freeCam in FreeLooks)
