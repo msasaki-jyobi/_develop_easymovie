@@ -68,7 +68,7 @@ namespace develop_easymovie
         /// 渡されたカメラに切り替える（アクティブカメラを切り替える）
         /// </summary>
         /// <param name="vcam"></param>
-        public async void ChangeActiveCamera(CinemachineVirtualCamera vcam, float blendTime = -1)
+        public async void ChangeActiveCamera(CinemachineVirtualCamera vcam, float blendTime = -1, Transform lookTarget = null, Transform followTarget = null)
         {
             if (blendTime >= 0)
                 Brain.m_DefaultBlend.m_Time = blendTime;
@@ -85,6 +85,10 @@ namespace develop_easymovie
                 if(cam == null) continue;
                 cam.m_Priority = 0;
             }
+            if (lookTarget != null)
+                vcam.m_LookAt = lookTarget;
+            if (followTarget != null)
+                vcam.m_Follow = followTarget;
 
             await UniTask.Delay(1);
 
