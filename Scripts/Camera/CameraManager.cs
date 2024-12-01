@@ -23,7 +23,7 @@ namespace develop_easymovie
         public List<CinemachineFreeLook> FreeLooks = new List<CinemachineFreeLook>();
 
         // 現在アクティブのカメラ
-        private CinemachineVirtualCamera _activeVcam;
+        public CinemachineVirtualCamera ActiveVcam;
         private TalkManager _talkManager;
         public ReactiveProperty<int> CameraSlotNum = new ReactiveProperty<int>();
 
@@ -73,8 +73,8 @@ namespace develop_easymovie
             if (blendTime >= 0)
                 Brain.m_DefaultBlend.m_Time = blendTime;
 
-            if (_activeVcam != null)
-                _activeVcam.m_Priority = 0;
+            if (ActiveVcam != null)
+                ActiveVcam.m_Priority = 0;
             if (freeCameraReset)
                 foreach (var freeCam in FreeLooks)
                 {
@@ -107,9 +107,9 @@ namespace develop_easymovie
 
             await UniTask.Delay(1);
 
-            _activeVcam = vcam;
-            _activeVcam.m_Priority = 30;
-            Debug.Log($"ActiveCamera　カメラを切り替えました:{_activeVcam.name}");
+            ActiveVcam = vcam;
+            ActiveVcam.m_Priority = 30;
+            Debug.Log($"ActiveCamera　カメラを切り替えました:{ActiveVcam.name}");
         }
         /// <summary>
         /// オブジェクト名と一致するカメラが合ったら、一致した名前の切り替える
