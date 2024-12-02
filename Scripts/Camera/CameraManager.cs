@@ -17,6 +17,7 @@ namespace develop_easymovie
         [Header("追加機能：JKey 切り替え")]
         public List<CinemachineVirtualCamera> DefaultVcams;
         public CinemachineFreeLook DefaultFreeLook;
+        public TalkManager _talkManager;
 
         [Header("自動取得")]
         public List<CinemachineVirtualCamera> VCams = new List<CinemachineVirtualCamera>();
@@ -24,7 +25,6 @@ namespace develop_easymovie
 
         // 現在アクティブのカメラ
         public CinemachineVirtualCamera ActiveVcam;
-        private TalkManager _talkManager;
         public ReactiveProperty<int> CameraSlotNum = new ReactiveProperty<int>();
 
         private void Start()
@@ -34,11 +34,8 @@ namespace develop_easymovie
             foreach (var freeCam in FindObjectsOfType<CinemachineFreeLook>())
                 FreeLooks.Add(freeCam);
 
-            _talkManager = TalkManager.Instance;
             if (_talkManager != null)
-            {
                 _talkManager.TalkUpdateEvent += OnTalkUpdateHandle;
-            }
 
             CameraSlotNum
                 .Subscribe((x) =>
