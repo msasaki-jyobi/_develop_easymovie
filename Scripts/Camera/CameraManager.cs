@@ -229,5 +229,9 @@ namespace develop_easymovie
         {
             SetDefaultCamera(false);
         }
+        public void OnChangeVCam(CinemachineVirtualCamera vcam)
+        {
+            ChangeActiveCamera(vcam);
+        }
     }
 }
